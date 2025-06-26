@@ -3,11 +3,9 @@ import json
 import requests
 import zipfile
 from io import BytesIO
-
 from tqdm import tqdm
-
-BASE_IMAGE_URL = "https://services.cancerimagingarchive.net/nbia-api/services/v1/getImage?SeriesInstanceUID={}"
-BASE_METADATA_URL = "https://services.cancerimagingarchive.net/nbia-api/services/v1/getSeriesMetaData?SeriesInstanceUID={}"
+from loguru import logger
+from consts.consts import DatasetMetadata, DownloadUrls, ImageFormats, SuccessLogMessages, ErrorLogMessages
 
 
 class CBISDDSMDownloader:
@@ -25,18 +23,18 @@ class CBISDDSMDownloader:
         start = False
         for line in lines:
             if not start:
-                if line.startswith("ListOfSeriesToDownload="):
+                if line.startswith(DatasetMetadata.LIST_SERIES):
                     start = True
             else:
                 uid = line.strip()
                 if uid:
                     series_uids.append(uid)
         if not series_uids:
-            raise ValueError("No SeriesInstanceUIDs found in manifest file.")
+            raise ValueError(ErrorLogMessages.NO_SERIES_UID_MSG)
         return series_uids
 
     def _get_metadata(self, uid: str):
-        response = requests.get(BASE_METADATA_URL.format(uid))
+        response = requests.get(DownloadUrls.BASE_METADATA_URL.format(uid))
         response.raise_for_status()
         return json.loads(response.content.decode("utf-8"))[0]
 
@@ -44,33 +42,34 @@ class CBISDDSMDownloader:
         if not os.path.exists(path):
             return False
         files = os.listdir(path)
-        dcm_count = len([f for f in files if f.endswith(".dcm")])
+        dcm_count = len([f for f in files if f.endswith(ImageFormats.DICOM)])
         return dcm_count >= expected_num
 
     def _download_series(self, uid: str):
         try:
             metadata = self._get_metadata(uid)
-            subject = metadata["Subject ID"]
-            study_uid = metadata["Study UID"]
-            series_uid = metadata["Series UID"]
-            num_images = int(metadata["Number of Images"])
+            subject = metadata[DatasetMetadata.SUBJECT_ID]
+            study_uid = metadata[DatasetMetadata.STUDY_UID]
+            series_uid = metadata[DatasetMetadata.SERIES_UID]
+            num_images = int(metadata[DatasetMetadata.NUM_IMGS])
 
             save_path = os.path.join(self.output_dir, subject, study_uid, series_uid)
             if self.skip_existing and self._already_downloaded(save_path, num_images):
+                logger.info(SuccessLogMessages.ALREADY_DOWNLOADED_MSG)
                 return  # already downloaded
 
             os.makedirs(save_path, exist_ok=True)
-            response = requests.get(BASE_IMAGE_URL.format(uid))
+            response = requests.get(DownloadUrls.BASE_IMAGE_URL.format(uid))
             response.raise_for_status()
 
             with zipfile.ZipFile(BytesIO(response.content)) as zip_ref:
                 zip_ref.extractall(save_path)
 
         except Exception as e:
-            print(f"❌ Error downloading {uid}: {e}")
+            logger.error(f"{ErrorLogMessages.ERROR_DOWNLOADING_MSG} {uid}: {e}")
 
     def run(self):
-        print(f"📥 Starting download of {len(self.series_uids)} series...")
-        for uid in tqdm(self.series_uids, desc="Downloading series", unit="series"):
+        logger.info(f"{SuccessLogMessages.DOWNLOAD_START_MSG} : {len(self.series_uids)}")
+        for uid in tqdm(self.series_uids, desc=SuccessLogMessages.DOWNLOAD_SERIES_MSG, unit=SuccessLogMessages.DOWNLOAD_UNIT_MSG):
             self._download_series(uid)
-        print("✅ Download completed.")
+        logger.info(SuccessLogMessages.COMPLETE_DOWNLOAD_MSG)

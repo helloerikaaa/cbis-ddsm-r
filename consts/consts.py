@@ -13,6 +13,59 @@ class DirNames(EnumConstant):
     MANIFEST = enum.auto()
     METADATA = enum.auto()
     DATA = enum.auto()
+    IMG = enum.auto()
+    CSV = enum.auto()
+    RAW = enum.auto()
+    PROCESSED = enum.auto()
+
+
+class FileNames(EnumConstant):
+    RAW_DATASET_FILE = "raw_cbis_ddsm_metadata.csv"
+    DICOM_IMG_FILE = "00000001.dcm"
+
+
+class FeatureNames(EnumConstant):
+    PATIENT_ID = enum.auto()
+    BREAST_DENSITY = enum.auto()
+    LATERALITY = enum.auto()
+    VIEW = enum.auto()
+    ABNORMALITY = enum.auto()
+    ABNORMALITY_TYPE = enum.auto()
+    MASS_SHAPE = enum.auto()
+    MASS_MARGINS = enum.auto()
+    ASSESSMENT = enum.auto()
+    PATHOLOGY = enum.auto()
+    SUBTLETY = enum.auto()
+    DICOM_PATH = enum.auto()
+    MASK_PATH = enum.auto()
+    CROPPED_IMAGE_PATH = enum.auto()
+
+
+class DatasetMetadata(EnumConstant):
+    SUBJECT_ID = "Subject ID"
+    STUDY_UID = "Study UID"
+    SERIES_UID = "Series UID"
+    NUM_IMGS = "Number of Images"
+    BREAST_LATERALITY = "left or right breast"
+    IMAGE_VIEW = "image view"
+    ABNORMALITY_ID = "abnormality id"
+    ABNORMALITY_TYPE = "abnormality type"
+    MASS_SHAPE = "mass shape"
+    MASS_MARGINS = "mass margins"
+    IMG_FILE_PATH = "image file path"
+    ROI_FILE_PATH = "ROI mask file path"
+    CROPPED_FILE_PATH = "cropped image file path"
+    LIST_SERIES = "ListOfSeriesToDownload="
+
+
+class DownloadUrls(EnumConstant):
+    BASE_IMAGE_URL = "https://services.cancerimagingarchive.net/nbia-api/services/v1/getImage?SeriesInstanceUID={}"
+    BASE_METADATA_URL = "https://services.cancerimagingarchive.net/nbia-api/services/v1/getSeriesMetaData?SeriesInstanceUID={}"
+
+
+class ImageFormats(EnumConstant):
+    DICOM = ".dcm"
+    PNG = ".png"
 
 
 class DownloadFiles(EnumConstant):
@@ -23,5 +76,20 @@ class DownloadFiles(EnumConstant):
     MASS_TEST_FILE = "mass_case_description_test_set.csv"
 
 
-class LogMessages(EnumConstant):
-    DOWNLOAD_DATASET = "Downloading CBIS-DDSM dataset..."
+class ProcessingLogMessages(EnumConstant):
+    PROCESSING_METADATA = "Processing CBIS-DDSM metadata..."
+
+class SuccessLogMessages(EnumConstant):
+    DOWNLOAD_DATASET_MSG = "Downloading CBIS-DDSM dataset..."
+    DOWNLOAD_START_MSG = "Starting to download"
+    DOWNLOAD_SERIES_MSG = "Downloading series"
+    COMPLETE_DOWNLOAD_MSG = "Download complete"
+    DOWNLOAD_UNIT_MSG = "series"
+    ALREADY_DOWNLOADED_MSG = "Already downloading. Skipping..."
+    PROCESSING_DATASET_MSG = "Processing metadata"
+    METADATA_SAVED_MSG = "Metadata saved to"
+
+
+class ErrorLogMessages(EnumConstant):
+    ERROR_DOWNLOADING_MSG = "Error downloading"
+    NO_SERIES_UID_MSG = "No SeriesInstanceUIDs found in manifest file"

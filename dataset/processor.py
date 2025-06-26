@@ -2,6 +2,8 @@ import os
 import pandas as pd
 from tqdm import tqdm
 from typing import List
+from loguru import logger
+from consts.consts import FileNames, ImageFormats, FeatureNames, DatasetMetadata, SuccessLogMessages
 
 
 class CBISDDSMProcessor:
@@ -31,7 +33,7 @@ class CBISDDSMProcessor:
         patient_id = parts[0]
         study_id = parts[1]
         series_id = parts[2]
-        file_name = "00000001.dcm"  # Each series usually contains one image per lesion
+        file_name = FileNames.DICOM_IMG_FILE  # Each series usually contains one image per lesion
         full_path = os.path.join(self.download_dir, patient_id, study_id, series_id, file_name)
         return full_path if os.path.exists(full_path) else None
 
@@ -39,39 +41,39 @@ class CBISDDSMProcessor:
         """
         Convert mask path to normalized format (PNG or to be generated later).
         """
-        return os.path.splitext(mask_path)[0] + ".png"
+        return os.path.splitext(mask_path)[0] + ImageFormats.PNG
 
     def process(self):
         df = self._load_metadata()
         output_rows = []
 
-        for _, row in tqdm(df.iterrows(), total=len(df), desc="Processing metadata"):
-            image_path = self._resolve_dicom_path(row["image file path"])
-            mask_path = self._resolve_mask_path(row["ROI mask file path"])
-            cropped_path = self._resolve_mask_path(row["cropped image file path"])
+        for _, row in tqdm(df.iterrows(), total=len(df), desc=SuccessLogMessages.PROCESSING_DATASET_MSG):
+            image_path = self._resolve_dicom_path(row[DatasetMetadata.IMG_FILE_PATH])
+            mask_path = self._resolve_mask_path(row[DatasetMetadata.ROI_FILE_PATH])
+            cropped_path = self._resolve_mask_path(row[DatasetMetadata.CROPPED_FILE_PATH])
 
             if image_path is None:
                 continue  # Skip missing DICOMs
 
             entry = {
-                "patient_id": row["patient_id"],
-                "breast_density": row["breast_density"],
-                "laterality": row["left or right breast"],
-                "view": row["image view"],
-                "abnormality_id": row["abnormality id"],
-                "abnormality_type": row["abnormality type"],
-                "mass_shape": row["mass shape"],
-                "mass_margins": row["mass margins"],
-                "assessment": row["assessment"],
-                "pathology": row["pathology"],
-                "subtlety": row["subtlety"],
-                "dicom_path": image_path,
-                "mask_path": mask_path,
-                "cropped_image_path": cropped_path,
+                FeatureNames.PATIENT_ID: row[FeatureNames.PATIENT_ID],
+                FeatureNames.BREAST_DENSITY: row[FeatureNames.BREAST_DENSITY],
+                FeatureNames.LATERALITY: row[DatasetMetadata.BREAST_LATERALITY],
+                FeatureNames.VIEW: row[DatasetMetadata.IMAGE_VIEW],
+                FeatureNames.ABNORMALITY: row[DatasetMetadata.ABNORMALITY_ID],
+                FeatureNames.ABNORMALITY_TYPE: row[DatasetMetadata.ABNORMALITY_TYPE],
+                FeatureNames.MASS_SHAPE: row[DatasetMetadata.MASS_SHAPE],
+                FeatureNames.MASS_MARGINS: row[DatasetMetadata.MASS_MARGINS],
+                FeatureNames.ASSESSMENT: row[FeatureNames.ASSESSMENT],
+                FeatureNames.PATHOLOGY: row[FeatureNames.PATHOLOGY],
+                FeatureNames.SUBTLETY: row[FeatureNames.SUBTLETY],
+                FeatureNames.DICOM_PATH: image_path,
+                FeatureNames.MASK_PATH: mask_path,
+                FeatureNames.CROPPED_IMAGE_PATH: cropped_path,
             }
 
             output_rows.append(entry)
 
         out_df = pd.DataFrame(output_rows)
         out_df.to_csv(self.output_csv, index=False)
-        print(f"✅ Metadata CSV saved to: {self.output_csv}")
+        logger.info(f"{SuccessLogMessages.METADATA_SAVED_MSG}: {self.output_csv}")
