@@ -18,12 +18,12 @@ class DownloadArtifacts:
 
 class RawDataPaths:
     RAW_PATH = os.path.join(DATA_PATH, DirNames.RAW)
-    RAW_IMG_PATH = os.path.join(RAW_PATH, DirNames.IMG)
-    RAW_CSV_PATH = os.path.join(RAW_PATH, DirNames.RAW)
+    RAW_IMG_PATH = os.path.join(RAW_PATH, DirNames.DICOM)
+    RAW_CSV_PATH = os.path.join(RAW_PATH, DirNames.CSV)
     RAW_DATASET_CSV_PATH = os.path.join(RAW_CSV_PATH, FileNames.RAW_DATASET_FILE)
 
 
 class ProcessedDataPaths:
     PROCESSED_PATH = os.path.join(DATA_PATH, DirNames.PROCESSED)
-    PROCESSED_IMG_PATH = os.path.join(PROCESSED_PATH, DirNames.IMG)
-    PROCESSED_CSV_PATH = os.path.join(PROCESSED_PATH, DirNames.RAW)
+    PROCESSED_IMG_PATH = os.path.join(PROCESSED_PATH, DirNames.DICOM)
+    PROCESSED_CSV_PATH = os.path.join(PROCESSED_PATH, DirNames.CSV)

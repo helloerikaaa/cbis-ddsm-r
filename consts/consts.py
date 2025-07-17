@@ -13,7 +13,7 @@ class DirNames(EnumConstant):
     MANIFEST = enum.auto()
     METADATA = enum.auto()
     DATA = enum.auto()
-    IMG = enum.auto()
+    DICOM = enum.auto()
     CSV = enum.auto()
     RAW = enum.auto()
     PROCESSED = enum.auto()
@@ -22,23 +22,7 @@ class DirNames(EnumConstant):
 class FileNames(EnumConstant):
     RAW_DATASET_FILE = "raw_cbis_ddsm_metadata.csv"
     DICOM_IMG_FILE = "00000001.dcm"
-
-
-class FeatureNames(EnumConstant):
-    PATIENT_ID = enum.auto()
-    BREAST_DENSITY = enum.auto()
-    LATERALITY = enum.auto()
-    VIEW = enum.auto()
-    ABNORMALITY = enum.auto()
-    ABNORMALITY_TYPE = enum.auto()
-    MASS_SHAPE = enum.auto()
-    MASS_MARGINS = enum.auto()
-    ASSESSMENT = enum.auto()
-    PATHOLOGY = enum.auto()
-    SUBTLETY = enum.auto()
-    DICOM_PATH = enum.auto()
-    MASK_PATH = enum.auto()
-    CROPPED_IMAGE_PATH = enum.auto()
+    MASK_IMG_FILE = "00000002.dcm"
 
 
 class DatasetMetadata(EnumConstant):
@@ -46,16 +30,42 @@ class DatasetMetadata(EnumConstant):
     STUDY_UID = "Study UID"
     SERIES_UID = "Series UID"
     NUM_IMGS = "Number of Images"
+    PATIENT_ID = enum.auto()
+    BREAST_DENSITY = "breast density"
     BREAST_LATERALITY = "left or right breast"
     IMAGE_VIEW = "image view"
     ABNORMALITY_ID = "abnormality id"
     ABNORMALITY_TYPE = "abnormality type"
+    CALC_TYPE = "calc type"
+    CALC_DIST = "calc distribution"
     MASS_SHAPE = "mass shape"
     MASS_MARGINS = "mass margins"
+    ASSESSMENT = enum.auto()
+    PATHOLOGY = enum.auto()
+    SUBTLETY = enum.auto()
     IMG_FILE_PATH = "image file path"
     ROI_FILE_PATH = "ROI mask file path"
     CROPPED_FILE_PATH = "cropped image file path"
     LIST_SERIES = "ListOfSeriesToDownload="
+
+
+class FeatureNames(EnumConstant):
+    PATIENT_ID = enum.auto()
+    BREAST_DENSITY = enum.auto()
+    BREAST_LATERALITY = enum.auto()
+    IMAGE_VIEW = enum.auto()
+    ABNORMALITY_ID = enum.auto()
+    ABNORMALITY_TYPE = enum.auto()
+    CALC_TYPE = enum.auto()
+    CALC_DIST = enum.auto()
+    MASS_SHAPE = enum.auto()
+    MASS_MARGINS = enum.auto()
+    ASSESSMENT = enum.auto()
+    PATHOLOGY = enum.auto()
+    SUBTLETY = enum.auto()
+    IMG_FILE_PATH = "image file path"
+    ROI_FILE_PATH = "ROI mask file path"
+    CROPPED_FILE_PATH = "cropped image file path"
 
 
 class DownloadUrls(EnumConstant):
