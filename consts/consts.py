@@ -21,6 +21,8 @@ class DirNames(EnumConstant):
 
 class FileNames(EnumConstant):
     RAW_DATASET_FILE = "raw_cbis_ddsm_metadata.csv"
+    RADIOMICS_RAW_DATASET_FILE = "raw_radiomics_dataset.csv"
+    PROCESSED_RADIOMICS_FEATS_FILE = "radiomics_features.csv"
     DICOM_IMG_FILE = "00000001.dcm"
     MASK_IMG_FILE = "00000002.dcm"
 
@@ -63,9 +65,14 @@ class FeatureNames(EnumConstant):
     ASSESSMENT = enum.auto()
     PATHOLOGY = enum.auto()
     SUBTLETY = enum.auto()
-    IMG_FILE_PATH = "image file path"
-    ROI_FILE_PATH = "ROI mask file path"
-    CROPPED_FILE_PATH = "cropped image file path"
+    IMG_FILE_PATH = "image_file_path"
+    ROI_FILE_PATH = "ROI_mask_file_path"
+    CROPPED_FILE_PATH = "cropped_image_file_path"
+
+
+class RadiomicsFeatureNames(EnumConstant):
+    IMAGE = enum.auto()
+    MASK = enum.auto()
 
 
 class DownloadUrls(EnumConstant):
@@ -103,3 +110,8 @@ class SuccessLogMessages(EnumConstant):
 class ErrorLogMessages(EnumConstant):
     ERROR_DOWNLOADING_MSG = "Error downloading"
     NO_SERIES_UID_MSG = "No SeriesInstanceUIDs found in manifest file"
+
+
+class RadiomicsConfig(EnumConstant):
+    LABEL = 255
+    FORCE2D = True

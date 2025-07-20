@@ -1,11 +1,13 @@
 import pandas as pd
 from loguru import logger
 from consts.paths import RawDataPaths
-from consts.consts import FeatureNames, FileNames, DatasetMetadata, SuccessLogMessages
+from consts.consts import FeatureNames, FileNames, DatasetMetadata, SuccessLogMessages, RadiomicsFeatureNames
 
 
 class CBISDDSMMetadataProcessor:
     def __init__(self, csv_files):
+        self.dataframe = None
+        self.radiomics_dataframe = None
         self.csv_files = csv_files
 
     def _update_path(self, path, roi=False):
@@ -36,14 +38,22 @@ class CBISDDSMMetadataProcessor:
         })
         return dataframe
 
+    def _create_radiomics_dataset(self, orginial_dataframe):
+        radiomics_dataframe = orginial_dataframe[[FeatureNames.IMG_FILE_PATH, FeatureNames.ROI_FILE_PATH]]
+        radiomics_dataframe = radiomics_dataframe.rename(columns={
+            FeatureNames.IMG_FILE_PATH: RadiomicsFeatureNames.IMAGE,
+            FeatureNames.ROI_FILE_PATH: RadiomicsFeatureNames.MASK
+        })
+        return radiomics_dataframe
+
     def merge_and_process(self):
         dataframes = []
         for file in self.csv_files:
-            df = pd.read_csv(file)
-            df = self._rename_columns(df)
-            df[DatasetMetadata.IMG_FILE_PATH] = df[DatasetMetadata.IMG_FILE_PATH].apply(lambda x: self._update_path(x, roi=False))
-            df[DatasetMetadata.ROI_FILE_PATH] = df[DatasetMetadata.ROI_FILE_PATH].apply(lambda x: self._update_path(x, roi=True))
-            dataframes.append(df)
+            dataframe = pd.read_csv(file)
+            dataframe = self._rename_columns(dataframe)
+            dataframe[FeatureNames.IMG_FILE_PATH] = dataframe[FeatureNames.IMG_FILE_PATH].apply(lambda x: self._update_path(x, roi=False))
+            dataframe[FeatureNames.ROI_FILE_PATH] = dataframe[FeatureNames.ROI_FILE_PATH].apply(lambda x: self._update_path(x, roi=True))
+            dataframes.append(dataframe)
 
         features = [
             FeatureNames.PATIENT_ID,
@@ -64,7 +74,10 @@ class CBISDDSMMetadataProcessor:
             FeatureNames.CROPPED_FILE_PATH,
         ]
 
-        dataframe = pd.concat(dataframes, ignore_index=True)
-        dataframe = dataframe[features]
-        dataframe.to_csv(RawDataPaths.RAW_DATASET_CSV_PATH, index=False)
-        logger.info(f"{SuccessLogMessages.METADATA_SAVED_MSG}: {RawDataPaths.RAW_CSV_PATH}")
+        self.dataframe = pd.concat(dataframes, ignore_index=True)
+        self.dataframe = self.dataframe[features]
+        self.dataframe.to_csv(RawDataPaths.RAW_DATASET_CSV_PATH, index=False)
+        logger.info(f"{SuccessLogMessages.METADATA_SAVED_MSG}: {RawDataPaths.RAW_DATASET_CSV_PATH}")
+        self.radiomics_dataframe = self._create_radiomics_dataset(self.dataframe)
+        self.radiomics_dataframe.to_csv(RawDataPaths.RAW_RADIOMICS_CSV_PATH, index=False)
+        logger.info(f"{SuccessLogMessages.METADATA_SAVED_MSG}: {RawDataPaths.RAW_RADIOMICS_CSV_PATH}")
