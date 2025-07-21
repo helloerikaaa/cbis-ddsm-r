@@ -4,7 +4,7 @@ from tqdm import tqdm
 import SimpleITK as sitk
 from loguru import logger
 from radiomics import featureextractor
-from consts.paths import RawDataPaths
+from consts.paths import CBISDDMSPaths
 from storage.local import LocalHandler
 from consts.consts import RadiomicsFeatureNames
 from preprocessing.image_utils import dicom_to_array
@@ -38,8 +38,8 @@ class RadiomicsFeatures:
             mask_id = str(row[RadiomicsFeatureNames.MASK])
 
             try:
-                image_dcm = self.handler.read_dicom(RawDataPaths.RAW_IMG_PATH, image_id)
-                label_dcm = self.handler.read_dicom(RawDataPaths.RAW_IMG_PATH, mask_id)
+                image_dcm = self.handler.read_dicom(CBISDDMSPaths.CBIS_DDMS_IMG_PATH, image_id)
+                label_dcm = self.handler.read_dicom(CBISDDMSPaths.CBIS_DDMS_IMG_PATH, mask_id)
 
                 image_array = dicom_to_array(image_dcm)
                 label_array = dicom_to_array(label_dcm)

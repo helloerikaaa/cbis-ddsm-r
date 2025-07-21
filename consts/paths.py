@@ -16,16 +16,16 @@ class DownloadArtifacts:
     MASS_TEST_FILE_PATH = os.path.join(METADATA_PATH, DownloadFiles.MASS_TEST_FILE)
 
 
-class RawDataPaths:
-    RAW_PATH = os.path.join(DATA_PATH, DirNames.RAW)
-    RAW_IMG_PATH = os.path.join(RAW_PATH, DirNames.DICOM)
-    RAW_CSV_PATH = os.path.join(RAW_PATH, DirNames.CSV)
-    RAW_DATASET_CSV_PATH = os.path.join(RAW_CSV_PATH, FileNames.RAW_DATASET_FILE)
-    RAW_RADIOMICS_CSV_PATH = os.path.join(RAW_CSV_PATH, FileNames.RADIOMICS_RAW_DATASET_FILE)
+class CBISDDMSPaths:
+    CBIS_DDMS_PATH = os.path.join(DATA_PATH, DirNames.CBIS_DDMS)
+    CBIS_DDMS_IMG_PATH = os.path.join(CBIS_DDMS_PATH, DirNames.IMG)
+    CBIS_DDMS_CSV_PATH = os.path.join(CBIS_DDMS_PATH, DirNames.CSV)
+    CBIS_DDMS_DATASET_CSV_PATH = os.path.join(CBIS_DDMS_CSV_PATH, FileNames.CBIS_DDSM_METADATA_FILE)
+    CBIS_DDMS_RADIOMICS_CSV_PATH = os.path.join(CBIS_DDMS_CSV_PATH, FileNames.RADIOMICS_DATASET_FILE)
 
 
-class ProcessedDataPaths:
-    PROCESSED_PATH = os.path.join(DATA_PATH, DirNames.PROCESSED)
-    PROCESSED_IMG_PATH = os.path.join(PROCESSED_PATH, DirNames.DICOM)
-    PROCESSED_CSV_PATH = os.path.join(PROCESSED_PATH, DirNames.CSV)
-    PROCESSED_RADIOMICS_FEATS_PATH = os.path.join(PROCESSED_CSV_PATH, FileNames.PROCESSED_RADIOMICS_FEATS_FILE)
+class CBISDDMSRPaths:
+    CBIS_DDSM_R_PATH = os.path.join(DATA_PATH, DirNames.CBIS_DDMS_R)
+    CBIS_DDSM_R_IMG_PATH = os.path.join(CBIS_DDSM_R_PATH, DirNames.IMG)
+    CBIS_DDSM_R_CSV_PATH = os.path.join(CBIS_DDSM_R_PATH, DirNames.CSV)
+    CBIS_DDSM_R_RADIOMICS_FEATS_PATH = os.path.join(CBIS_DDSM_R_CSV_PATH, FileNames.RADIOMICS_FEATS_FILE)

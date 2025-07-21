@@ -10,19 +10,19 @@ class EnumConstant(str, enum.Enum):
 
 
 class DirNames(EnumConstant):
+    CBIS_DDMS = ".CBIS-DDSM"
+    CBIS_DDMS_R = "CBIS-DDSM-R"
     MANIFEST = enum.auto()
     METADATA = enum.auto()
     DATA = enum.auto()
-    DICOM = enum.auto()
+    IMG = enum.auto()
     CSV = enum.auto()
-    RAW = enum.auto()
-    PROCESSED = enum.auto()
 
 
 class FileNames(EnumConstant):
-    RAW_DATASET_FILE = "raw_cbis_ddsm_metadata.csv"
-    RADIOMICS_RAW_DATASET_FILE = "raw_radiomics_dataset.csv"
-    PROCESSED_RADIOMICS_FEATS_FILE = "radiomics_features.csv"
+    CBIS_DDSM_METADATA_FILE = "cbis_ddsm_metadata.csv"
+    RADIOMICS_DATASET_FILE = "radiomics_dataset.csv"
+    RADIOMICS_FEATS_FILE = "radiomics_features.csv"
     DICOM_IMG_FILE = "00000001.dcm"
     MASK_IMG_FILE = "00000002.dcm"
 

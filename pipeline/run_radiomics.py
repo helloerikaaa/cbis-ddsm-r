@@ -1,5 +1,5 @@
 from consts.consts import RadiomicsConfig
-from consts.paths import RawDataPaths, ProcessedDataPaths
+from consts.paths import CBISDDMSRPaths, CBISDDMSPaths
 from features.radiomics_features import RadiomicsFeatures
 
 def main():
@@ -11,8 +11,8 @@ def main():
     rf = RadiomicsFeatures(settings)
 
     rf.process_dataset(
-        RawDataPaths.RAW_RADIOMICS_CSV_PATH,
-        ProcessedDataPaths.PROCESSED_RADIOMICS_FEATS_PATH
+        CBISDDMSPaths.CBIS_DDMS_RADIOMICS_CSV_PATH,
+        CBISDDMSRPaths.CBIS_DDSM_R_RADIOMICS_FEATS_PATH
     )
 
 
