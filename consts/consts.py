@@ -105,6 +105,9 @@ class SuccessLogMessages(EnumConstant):
     ALREADY_DOWNLOADED_MSG = "Already downloading. Skipping..."
     PROCESSING_DATASET_MSG = "Processing metadata"
     METADATA_SAVED_MSG = "Metadata saved to"
+    MSG_FULL_MMG_DCM = "Processing full mammograph DICOM images"
+    MSG_DICOM_INFO = "Reading DICOM information..."
+    PREPROCESS_IMG_MSG = "All images processed successfully."
 
 
 class ErrorLogMessages(EnumConstant):
@@ -112,6 +115,25 @@ class ErrorLogMessages(EnumConstant):
     NO_SERIES_UID_MSG = "No SeriesInstanceUIDs found in manifest file"
 
 
+class WarningLogMessages(EnumConstant):
+    SKIPPING_IMG_MSG = "Skipping file"
+    NOT_PROCESSED_IMG_MSG = "images not found or failed to process"
+
+
 class RadiomicsConfig(EnumConstant):
     LABEL = 255
     FORCE2D = True
+
+
+class ImgProcessingConfig(EnumConstant):
+    BLUR_KERNEL = 3
+    THRESHOLD = 18
+    OBJECT_KERNEL = 15
+    LABEL_VALUE = 255
+    HALF_HEIGHT_RATIO = 0.5
+    HALF_WIDTH_RATIO = 0.5
+    CORNER_PERCENTILE = 63
+    EROSION_ITERATIONS = 3
+    SMOOTH_KERNEL_SIZE = 75
+    THRESH_BINARY_MAXVAL = 255
+    MORPH_KERNEL_VALUE = 1

@@ -1,6 +1,6 @@
 import pandas as pd
 from loguru import logger
-from consts.paths import CBISDDMSPaths
+from consts.paths import CBISDDSMPaths
 from consts.consts import FeatureNames, FileNames, DatasetMetadata, SuccessLogMessages, RadiomicsFeatureNames
 
 
@@ -76,8 +76,8 @@ class CBISDDSMMetadataProcessor:
 
         self.dataframe = pd.concat(dataframes, ignore_index=True)
         self.dataframe = self.dataframe[features]
-        self.dataframe.to_csv(CBISDDMSPaths.CBIS_DDMS_DATASET_CSV_PATH, index=False)
-        logger.info(f"{SuccessLogMessages.METADATA_SAVED_MSG}: {CBISDDMSPaths.CBIS_DDMS_DATASET_CSV_PATH}")
+        self.dataframe.to_csv(CBISDDSMPaths.CBIS_DDSM_DATASET_CSV_PATH, index=False)
+        logger.info(f"{SuccessLogMessages.METADATA_SAVED_MSG}: {CBISDDSMPaths.CBIS_DDSM_DATASET_CSV_PATH}")
         self.radiomics_dataframe = self._create_radiomics_dataset(self.dataframe)
-        self.radiomics_dataframe.to_csv(CBISDDMSPaths.CBIS_DDMS_RADIOMICS_CSV_PATH, index=False)
-        logger.info(f"{SuccessLogMessages.METADATA_SAVED_MSG}: {CBISDDMSPaths.CBIS_DDMS_RADIOMICS_CSV_PATH}")
+        self.radiomics_dataframe.to_csv(CBISDDSMPaths.CBIS_DDSM_RADIOMICS_CSV_PATH, index=False)
+        logger.info(f"{SuccessLogMessages.METADATA_SAVED_MSG}: {CBISDDSMPaths.CBIS_DDSM_RADIOMICS_CSV_PATH}")
