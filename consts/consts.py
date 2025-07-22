@@ -23,6 +23,7 @@ class FileNames(EnumConstant):
     CBIS_DDSM_METADATA_FILE = "cbis_ddsm_metadata.csv"
     RADIOMICS_DATASET_FILE = "radiomics_dataset.csv"
     RADIOMICS_FEATS_FILE = "radiomics_features.csv"
+    CBIS_DDSM_R_DATASET_FILE = "cbis-ddsm-r-dataset.csv"
     DICOM_IMG_FILE = "00000001.dcm"
     MASK_IMG_FILE = "00000002.dcm"
 

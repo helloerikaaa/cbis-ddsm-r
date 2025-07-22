@@ -6,9 +6,9 @@ import SimpleITK as sitk
 from loguru import logger
 from radiomics import featureextractor
 from storage.local import LocalHandler
-from consts.consts import RadiomicsFeatureNames
 from preprocessing.image_utils import dicom_to_array
 from consts.paths import CBISDDSMRPaths, CBISDDSMPaths
+from consts.consts import RadiomicsFeatureNames, FeatureNames
 
 
 class RadiomicsFeatures:
@@ -42,14 +42,14 @@ class RadiomicsFeatures:
             mask_path = os.path.join(CBISDDSMPaths.CBIS_DDSM_IMG_PATH, mask_id)
 
             try:
-                image_dcm = self.handler.read_dicom(image_path)
+                image_dcm = self.handler.read_dicom(image_path)-
                 label_dcm = self.handler.read_dicom(mask_path)
 
                 image_array = dicom_to_array(image_dcm)
                 label_array = dicom_to_array(label_dcm)
 
                 result = self.extract_features(image_array, label_array)
-                result["image_id"] = image_id
+                result[FeatureNames.IMG_FILE_PATH] = image_id
 
                 all_results.append(result)
 

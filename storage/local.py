@@ -80,6 +80,10 @@ class LocalHandler:
         """
         try:
             dcm_img: pydicom.Dataset = array_to_dicom(dcm_img, img)
+            logger.info(f"Original shape: {dcm_img.pixel_array.shape}")
+            logger.info(f"Original rows/cols: {dcm_img.Rows, dcm_img.Columns}")
+            logger.info(f"SamplesPerPixel: {dcm_img.SamplesPerPixel}")
+            logger.info(f"BitsAllocated: {dcm_img.BitsAllocated}")
             dcm_img.save_as(file_path)
             logger.info(f"File {file_path} has been saved")
         except Exception as err:

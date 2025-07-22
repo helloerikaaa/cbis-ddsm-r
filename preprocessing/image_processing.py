@@ -38,10 +38,6 @@ class ImageProcessor:
         else:
             final_img = largest_obj
 
-        final_img = final_img.astype(getattr(np, f'uint{dcm_img.BitsAllocated}'))
-        dcm_img.Rows, dcm_img.Columns = final_img.shape
-        dcm_img.PixelData = final_img.tobytes()
-
         handler.save_dicom(dcm_img, final_img, processed_img_path)
 
     def _median_blur(self, img: np.ndarray, kernel: int):

@@ -1,5 +1,5 @@
-from dataset.processor import CBISDDSMMetadataProcessor
 from consts.paths import DownloadArtifacts
+from dataset.processor import CBISDDSMMetadataProcessor
 
 
 def main():

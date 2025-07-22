@@ -1,7 +1,10 @@
 import pydicom
 import pydicom.uid
 import numpy as np
+from loguru import logger
 from PIL import Image
+from pydicom.dataset import FileDataset
+from pydicom.uid import ExplicitVRLittleEndian
 
 
 def dicom_to_array(dicom_dataset: pydicom.Dataset) -> np.ndarray:
@@ -14,12 +17,46 @@ def dicom_to_array(dicom_dataset: pydicom.Dataset) -> np.ndarray:
     return img
 
 
-def array_to_dicom(dcm_img: pydicom.Dataset, img_array:np.ndarray) -> pydicom.Dataset:
-    dcm_img.is_little_endian = True
-    dcm_img.is_implicit_VR = False
-    dcm_img.PixelData = img_array.tobytes()
-    dcm_img.Rows, dcm_img.Columns = img_array.shape
-    return dcm_img
+def array_to_dicom(original_dcm: pydicom.Dataset, img: np.ndarray) -> pydicom.Dataset:
+    # Convertir a uint16 si no lo es
+    if img.dtype != np.uint16:
+        img = img.astype(np.uint16)
+
+    # Crear nuevo dataset
+    file_meta = original_dcm.file_meta
+    new_dcm = FileDataset(None, {}, file_meta=file_meta, preamble=b"\0" * 128)
+
+    # Copiar elementos excepto PixelData
+    for elem in original_dcm:
+        if elem.tag == (0x7FE0, 0x0010):  # PixelData
+            continue
+        try:
+            new_dcm.add(elem)
+        except:
+            pass
+
+    # Ajustar los parámetros de la imagen
+    new_dcm.Rows, new_dcm.Columns = img.shape
+    new_dcm.SamplesPerPixel = 1
+    new_dcm.PhotometricInterpretation = "MONOCHROME2"
+    new_dcm.BitsAllocated = 16
+    new_dcm.BitsStored = 16
+    new_dcm.HighBit = 15
+    new_dcm.PixelRepresentation = 0
+    if 'NumberOfFrames' in new_dcm:
+        del new_dcm.NumberOfFrames
+    if 'PlanarConfiguration' in new_dcm:
+        del new_dcm.PlanarConfiguration
+
+    # Insertar pixel data
+    new_dcm.PixelData = img.tobytes()
+
+    # Establecer sintaxis
+    new_dcm.is_little_endian = True
+    new_dcm.is_implicit_VR = False
+    new_dcm.file_meta.TransferSyntaxUID = ExplicitVRLittleEndian
+
+    return new_dcm
 
 
 def png_to_array(img: Image.Image) -> np.ndarray:
