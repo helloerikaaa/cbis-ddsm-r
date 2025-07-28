@@ -69,6 +69,7 @@ class FeatureNames(EnumConstant):
     IMG_FILE_PATH = "image_file_path"
     ROI_FILE_PATH = "ROI_mask_file_path"
     CROPPED_FILE_PATH = "cropped_image_file_path"
+    FOUR_VIEWS = "has_four_views"
 
 
 class RadiomicsFeatureNames(EnumConstant):
