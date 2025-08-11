@@ -1,4 +1,4 @@
-# CBIS-DDSM-R: A Reproducible and Radiomics-Ready Mammography Dataset
+# CBIS-DDSM-R: A Curated Radiomic Feature Dataset for Breast Cancer Classification
 
 CBIS-DDSM-R is a curated and reproducible version of the Curated Breast Imaging Subset of DDSM (CBIS-DDSM). This project provides a fully automated pipeline for downloading, processing, and extracting radiomic features from CBIS-DDSM, enabling reproducible experiments in breast cancer imaging research.
 
