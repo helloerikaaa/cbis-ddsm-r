@@ -2,8 +2,8 @@
 
 CBIS-DDSM-R is a curated and reproducible version of the Curated Breast Imaging Subset of DDSM (CBIS-DDSM). This project provides a fully automated pipeline for downloading, processing, and extracting radiomic features from CBIS-DDSM, enabling reproducible experiments in breast cancer imaging research.
 
-
 # Project Structure
+
 ```bash
 cbis-ddsm-r/
 │
@@ -48,6 +48,7 @@ cbis-ddsm-r/
 ```
 
 # What's Included
+
 - Automated download of CBIS-DDSM via manifest
 - DICOM image conversion and pectoral muscle removal
 - ROI extraction and alignment
@@ -55,30 +56,58 @@ cbis-ddsm-r/
 - Metadata processing and merging with radiomic features
 
 # Requirements
+
 - Python 3.9
 
 # Python Environment
+
 ```bash
 conda create -n cbis-ddsm-r
 conda activate cbis-ddsm-r
 conda install -r requirements.txt
 ```
 
-
 # Usage
-## 1.  Download the dataset
+
+## 1. Download the dataset
+
 ```bash
 python pipeline/run_downloader.py
 ```
+
 ## 2. Process the metadata
+
 ```bash
 python pipeline/run_metadata_processor.py
 ```
+
 ## 3. Preprocess images
+
 ```bash
 python pipeline/run_image_processing.py
 ```
+
 ## 4. Extract radiomic features using PyRadiomics
+
 ```bash
 python pipeline/run_radiomics.py
 ```
+
+## 5. Create the dataset
+
+```bash
+python pipeline/run_dataset_construction.py
+
+```
+
+# Automatic pipeline
+
+In case you want to run just one script to get dataset without modifying the pipeline, run the following command:
+
+```bash
+python pipeline/run_all.py
+```
+
+# Dataset on HuggingFace
+
+In case you don't want to run any python script, you can find the dataset at: [HuggingFace](https://huggingface.co/datasets/helloerikaaa/cbis-ddsm-r)
