@@ -111,3 +111,24 @@ python pipeline/run_all.py
 # Dataset on HuggingFace
 
 In case you don't want to run any python script, you can find the dataset at: [HuggingFace](https://huggingface.co/datasets/helloerikaaa/cbis-ddsm-r)
+
+# Cite this paper
+
+If you use this dataset, please cite the following paper.
+
+```bibtex
+
+@Article{data10110179,
+AUTHOR = {Sánchez-Femat, Erika and Galván-Tejada, Carlos E. and Galván-Tejada, Jorge I. and Gamboa-Rosales, Hamurabi and Luna-García, Huizilopoztli and Flores-Chaires, Luis Alberto and Saldívar-Pérez, Javier and Reveles-Martínez, Rafael and Celaya-Padilla, José M.},
+TITLE = {CBIS-DDSM-R: A Curated Radiomic Feature Dataset for Breast Cancer Classification},
+JOURNAL = {Data},
+VOLUME = {10},
+YEAR = {2025},
+NUMBER = {11},
+ARTICLE-NUMBER = {179},
+URL = {https://www.mdpi.com/2306-5729/10/11/179},
+ISSN = {2306-5729},
+ABSTRACT = {Early and accurate breast cancer detection is critical for patient outcomes. The Curated Breast Imaging Subset of the Digital Database for Screening Mammography (CBIS-DDSM) has been instrumental for computer-aided diagnosis (CAD) systems. However, the lack of a standardized preprocessing pipeline and consistent metadata has limited its utility for reproducible quantitative imaging or radiomics. This paper introduces CBIS-DDSM-R, an open-source, radiomics-ready extension of the original dataset. It provides an automated pipeline for preprocessing mammograms and extracts a standardized set of 93 radiomics features per lesion, adhering to Image Biomarker Standardisation Initiative (IBSI) guidelines using PyRadiomics. The resulting dataset combines clinical and radiomics data into a unified format, offering a robust benchmark for developing and validating reproducible radiomics models for breast cancer characterization.},
+DOI = {10.3390/data10110179}
+}
+```

@@ -1,0 +1,31 @@
+
+cff-version: 1.2.0
+message: "If you use this dataset, please cite the following paper."
+title: "CBIS-DDSM-R: A Curated Radiomic Feature Dataset for Breast Cancer Classification"
+type: dataset
+authors:
+  - family-names: Sánchez-Femat
+    given-names: Erika
+  - family-names: Galván-Tejada
+    given-names: Carlos E.
+  - family-names: Galván-Tejada
+    given-names: Jorge I.
+  - family-names: Gamboa-Rosales
+    given-names: Héctor
+  - family-names: Luna-García
+    given-names: Héctor
+  - family-names: Flores-Chaires
+    given-names: Luis A.
+  - family-names: Saldívar-Pérez
+    given-names: Javier
+  - family-names: Reveles-Martínez
+    given-names: Raúl
+  - family-names: Celaya-Padilla
+    given-names: José M.
+doi: 10.3390/data10110179
+url: https://doi.org/10.3390/data10110179
+journal: "Data"
+volume: 10
+issue: 11
+year: 2025
+pages: "179"
